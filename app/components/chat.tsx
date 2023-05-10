@@ -789,7 +789,7 @@ export function Chat() {
       <div className={styles["chat-input-panel"]}>
         <PromptHints prompts={promptHints} onPromptSelect={onPromptSelect} />
 
-        <ChatActions
+        {/* <ChatActions
           showPromptModal={() => setShowPromptModal(true)}
           scrollToBottom={scrollToBottom}
           hitBottom={hitBottom}
@@ -797,7 +797,7 @@ export function Chat() {
             inputRef.current?.focus();
             onSearch("");
           }}
-        />
+        /> */}
         <div className={styles["chat-input-panel-inner"]}>
           <textarea
             ref={inputRef}
