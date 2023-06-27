@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 import styles from "./home.module.scss";
 
@@ -27,6 +27,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMobileScreen } from "../utils";
 import dynamic from "next/dynamic";
 import { showToast } from "./ui-lib";
+import { useUserStore } from "../store/user";
 
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
   loading: () => null,
@@ -81,7 +82,11 @@ function useDragSideBar() {
 }
 
 export function SideBar(props: { className?: string }) {
-  const chatStore = useChatStore();
+  const chatStore = useChatStore()
+  const userStore = useUserStore()
+
+  const user = useMemo(() => userStore.user, [])
+  
 
   // drag side bar
   const { onDragMouseDown, shouldNarrow } = useDragSideBar();
@@ -95,6 +100,16 @@ export function SideBar(props: { className?: string }) {
         shouldNarrow && styles["narrow-sidebar"]
       }`}
     >
+      {
+        user.id ? 
+        <div className={styles["sidebar-user"]}>
+          <div className={styles["sidebar-user-avatar"]}>
+            <img src={user.avatar} alt="avatar" />
+          </div>
+          <div className={styles["sidebar-user-name"]}>{user.username}</div>
+        </div> : 
+        <a href="/service-api/oauth/render">微信登录</a>
+      }
       <div className={styles["sidebar-header"]}>
         <div className={styles["sidebar-title"]}>爱迹AI助理</div>
         <div className={styles["sidebar-sub-title"]}>

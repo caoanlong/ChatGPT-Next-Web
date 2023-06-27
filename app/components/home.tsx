@@ -2,7 +2,7 @@
 
 require("../polyfill");
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import styles from "./home.module.scss";
 
@@ -23,6 +23,9 @@ import {
 } from "react-router-dom";
 import { SideBar } from "./sidebar";
 import { useAppConfig } from "../store/config";
+import { Toaster } from "react-hot-toast";
+import request from "../service/request";
+import { useUserStore } from "../store/user";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
@@ -97,33 +100,48 @@ function Screen() {
   const isMobileScreen = useMobileScreen();
 
   return (
-    <div
-      className={
-        styles.container +
-        ` ${
-          config.tightBorder && !isMobileScreen
-            ? styles["tight-container"]
-            : styles.container
-        }`
-      }
-    >
-      <SideBar className={isHome ? styles["sidebar-show"] : ""} />
+    <>
+      <div
+        className={
+          styles.container +
+          ` ${
+            config.tightBorder && !isMobileScreen
+              ? styles["tight-container"]
+              : styles.container
+          }`
+        }
+      >
+        <SideBar className={isHome ? styles["sidebar-show"] : ""} />
 
-      <div className={styles["window-content"]} id={SlotID.AppBody}>
-        <Routes>
-          <Route path={Path.Home} element={<Chat />} />
-          <Route path={Path.NewChat} element={<NewChat />} />
-          <Route path={Path.Masks} element={<MaskPage />} />
-          <Route path={Path.Chat} element={<Chat />} />
-          <Route path={Path.Settings} element={<Settings />} />
-        </Routes>
+        <div className={styles["window-content"]} id={SlotID.AppBody}>
+          <Routes>
+            <Route path={Path.Home} element={<Chat />} />
+            <Route path={Path.NewChat} element={<NewChat />} />
+            <Route path={Path.Masks} element={<MaskPage />} />
+            <Route path={Path.Chat} element={<Chat />} />
+            <Route path={Path.Settings} element={<Settings />} />
+          </Routes>
+        </div>
       </div>
-    </div>
-  );
+      <Toaster/>
+    </>
+  )
 }
+
 
 export function Home() {
   useSwitchTheme();
+  const userStore = useUserStore()
+
+  const getUserInfo = useCallback(() => {
+    request('/api/user/info').then(res => {
+      userStore.setUser(res.data.data)
+    })
+  }, [])
+
+  useEffect(() => {
+    getUserInfo()
+  }, [])
 
   if (!useHasHydrated()) {
     return <Loading />;
