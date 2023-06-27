@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import styles from "./home.module.scss";
 
@@ -85,7 +85,7 @@ export function SideBar(props: { className?: string }) {
   const chatStore = useChatStore()
   const userStore = useUserStore()
 
-  const user = useMemo(() => userStore.getUser(), [])
+  const user = userStore.getUser()
   
 
   // drag side bar
