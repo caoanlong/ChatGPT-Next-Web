@@ -85,7 +85,7 @@ export function SideBar(props: { className?: string }) {
   const chatStore = useChatStore()
   const userStore = useUserStore()
 
-  const user = useMemo(() => userStore.user, [])
+  const user = useMemo(() => userStore.getUser(), [])
   
 
   // drag side bar

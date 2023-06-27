@@ -8,6 +8,7 @@ type UserState = {
 
 type Actions = {
   setUser: (user: User) => void,
+  getUser: () => User,
   delUser: () => void,
 }
 
@@ -17,6 +18,9 @@ export const useUserStore = create<UserState & Actions>()(
         user: {} as User,
         setUser(user: User) {
           set(() => ({ user }))
+        },
+        getUser() {
+          return get().user
         },
         delUser() {
           set(() => ({ user: {} as User }))
