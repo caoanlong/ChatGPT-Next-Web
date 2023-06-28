@@ -36,7 +36,7 @@ service.interceptors.request.use((config: AxiosRequestConfig) => {
 service.interceptors.response.use((res: AxiosResponse) => {
     if (res.data.code !== 200) {
         !isServer && toast.error(res.data.message)
-        if ([4000].includes(res.data.code)) {
+        if ([4000, 4001, 4002, 4003].includes(res.data.code)) {
             Cookies.remove('token')
             !isServer && useUserStore().delUser()
             return Promise.reject(res)
