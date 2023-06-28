@@ -2,8 +2,6 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 // import { cookies } from 'next/headers'
 import Cookies from 'js-cookie'
 import toast from 'react-hot-toast'
-import { useUserStore } from '../store/user'
-
 
 export function isServer() {
     return typeof window === 'undefined'
@@ -35,10 +33,12 @@ service.interceptors.request.use((config: AxiosRequestConfig) => {
 
 service.interceptors.response.use((res: AxiosResponse) => {
     if (res.data.code !== 200) {
-        !isServer && toast.error(res.data.message)
+        !isServer() && toast.error(res.data.message)
         if ([4000, 4001, 4002, 4003].includes(res.data.code)) {
             Cookies.remove('token')
-            !isServer && useUserStore().delUser()
+            if (!isServer()) {
+                localStorage.removeItem('user')
+            }
             return Promise.reject(res)
         }
         return Promise.reject(res)
@@ -46,7 +46,7 @@ service.interceptors.response.use((res: AxiosResponse) => {
     return res
 }, (err: AxiosError) => {
     console.log(err.response?.status)
-    !isServer && toast.error(err.response?.statusText as any)
+    !isServer() && toast.error(err.response?.statusText as any)
     return Promise.reject(err)
 })
 

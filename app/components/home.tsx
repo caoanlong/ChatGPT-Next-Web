@@ -132,6 +132,7 @@ function Screen() {
 export function Home() {
   useSwitchTheme();
   const userStore = useUserStore()
+  const token = userStore.getToken()
 
   const getUserInfo = useCallback(() => {
     request('/api/user/info').then(res => {
@@ -140,8 +141,8 @@ export function Home() {
   }, [])
 
   useEffect(() => {
-    getUserInfo()
-  }, [])
+    token && getUserInfo()
+  }, [token])
 
   if (!useHasHydrated()) {
     return <Loading />;

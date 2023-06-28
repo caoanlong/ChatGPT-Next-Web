@@ -63,6 +63,7 @@ import {
   DEFAULT_MASK_ID,
   useMaskStore,
 } from "../store/mask";
+import { useUserStore } from "../store/user";
 
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
@@ -406,6 +407,10 @@ export function Chat() {
   ]);
   const config = useAppConfig();
   const fontSize = config.fontSize;
+
+  const userStore = useUserStore()
+  const user = userStore.getUser()
+  const token = userStore.getToken()
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [userInput, setUserInput] = useState("");
@@ -811,13 +816,25 @@ export function Chat() {
             rows={inputRows}
             autoFocus={autoFocus}
           />
-          <IconButton
-            icon={<SendWhiteIcon />}
-            text={Locale.Chat.Send}
-            className={styles["chat-input-send"]}
-            type="primary"
-            onClick={onUserSubmit}
-          />
+          {
+            token && user.id ? 
+            <IconButton
+              icon={<SendWhiteIcon />}
+              text={Locale.Chat.Send}
+              className={styles["chat-input-send"]}
+              type="primary"
+              onClick={onUserSubmit}
+            /> : 
+            <IconButton
+              icon={<img style={{width: 16, height: 16}} src="/wechat.svg"/>}
+              text={'微信登录'}
+              className={styles["chat-input-send"]}
+              type="primary"
+              onClick={() => {
+                window.location.href = `/service-api/oauth/render`
+              }}
+            />
+          }
         </div>
       </div>
     </div>

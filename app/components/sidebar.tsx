@@ -86,6 +86,7 @@ export function SideBar(props: { className?: string }) {
   const userStore = useUserStore()
 
   const user = userStore.getUser()
+  const token = userStore.getToken()
   
 
   // drag side bar
@@ -101,14 +102,13 @@ export function SideBar(props: { className?: string }) {
       }`}
     >
       {
-        user.id ? 
+        token && user.id ? 
         <div className={styles["sidebar-user"]}>
           <div className={styles["sidebar-user-avatar"]}>
             <img src={user.avatar} alt="avatar" />
           </div>
           <div className={styles["sidebar-user-name"]}>{user.username}</div>
-        </div> : 
-        <a href="/service-api/oauth/render">微信登录</a>
+        </div> : <></>
       }
       <div className={styles["sidebar-header"]}>
         <div className={styles["sidebar-title"]}>爱迹AI助理</div>
