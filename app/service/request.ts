@@ -15,6 +15,13 @@ function getToken() {
     return Cookies.get('token') as string
 }
 
+function getRootDomain() {
+    let domain = window.location.host
+    if (window.location.host.startsWith('www')) {
+        domain = window.location.host.replace('www.', '')
+    }
+}
+
 const baseURL = '/api'
 const service = axios.create({
     withCredentials: true,
@@ -35,7 +42,9 @@ service.interceptors.response.use((res: AxiosResponse) => {
     if (res.data.code !== 200) {
         !isServer() && toast.error(res.data.message)
         if ([4000, 4001, 4002, 4003].includes(res.data.code)) {
-            Cookies.remove('token')
+            Cookies.remove('token', {
+                domain: '.' + getRootDomain()
+            })
             if (!isServer()) {
                 localStorage.removeItem('user')
             }
