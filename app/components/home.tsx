@@ -141,7 +141,6 @@ export function Home() {
   }, [])
 
   useEffect(() => {
-    console.log('token: ', token)
     token && getUserInfo()
   }, [token])
 
