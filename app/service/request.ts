@@ -42,6 +42,7 @@ service.interceptors.response.use((res: AxiosResponse) => {
     if (res.data.code !== 200) {
         !isServer() && toast.error(res.data.message)
         if ([4000, 4001, 4002, 4003].includes(res.data.code)) {
+            console.log(getRootDomain())
             Cookies.remove('token', {
                 domain: '.' + getRootDomain()
             })
