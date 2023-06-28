@@ -135,7 +135,7 @@ export function Home() {
   const token = userStore.getToken()
 
   const getUserInfo = useCallback(() => {
-    request('/api/user/info').then(res => {
+    request('/service-api/user/info').then(res => {
       userStore.setUser(res.data.data)
     })
   }, [])

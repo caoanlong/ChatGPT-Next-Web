@@ -11,8 +11,8 @@ const nextConfig = {
     if (apiUrl) {
       console.log("[Next] using api url ", apiUrl);
       ret.push({
-        source: "/api/user/:path*",
-        destination: `${apiUrl}/user/:path*`,
+        source: "/service-api/:path*",
+        destination: `${apiUrl}/:path*`,
       });
     }
 
