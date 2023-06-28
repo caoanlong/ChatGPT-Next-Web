@@ -17,9 +17,10 @@ function getToken() {
 
 function getRootDomain() {
     let domain = window.location.host
-    if (window.location.host.startsWith('www')) {
+    if (window.location.host.startsWith('www.')) {
         domain = window.location.host.replace('www.', '')
     }
+    return domain
 }
 
 const baseURL = '/api'
