@@ -23,7 +23,7 @@ function getRootDomain() {
     return domain
 }
 
-const baseURL = '/api'
+const baseURL = '/service-api'
 const service = axios.create({
     withCredentials: true,
     baseURL,
