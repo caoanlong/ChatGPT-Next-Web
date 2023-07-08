@@ -19,6 +19,7 @@
     "eventsource-parser": "^0.1.0",
     "fuse.js": "^6.6.2",
     "js-cookie": "^3.0.5",
+    "json-bigint": "^1.0.0",
     "mermaid": "^10.1.0",
     "next": "^13.3.1-canary.8",
     "node-fetch": "^3.3.1",
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.3",
+    "@types/json-bigint": "^1.0.1",
     "@types/node": "^18.14.6",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",

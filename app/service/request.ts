@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 // import { cookies } from 'next/headers'
 import Cookies from 'js-cookie'
 import toast from 'react-hot-toast'
+import JSONbig from 'json-bigint'
 
 export function isServer() {
     return typeof window === 'undefined'
@@ -27,7 +28,10 @@ const baseURL = '/service-api'
 const service = axios.create({
     withCredentials: true,
     baseURL,
-    timeout: 15000
+    timeout: 15000,
+    transformResponse: [function (data) {
+        return JSONbig.parse(data)
+    }]
 })
 
 service.interceptors.request.use((config: AxiosRequestConfig) => {
