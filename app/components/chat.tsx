@@ -831,7 +831,7 @@ export function Chat() {
               className={styles["chat-input-send"]}
               type="primary"
               onClick={() => {
-                window.location.href = `/service-api/oauth/render/wexin_open`
+                window.location.href = `/service-api/oauth/render/weixin_open`
               }}
             />
           }
